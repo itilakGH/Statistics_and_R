@@ -1,0 +1,120 @@
+1. MPG Regression
+
+Summary of the multiple linear regression test:
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-19.4701  -4.4994  -0.0692   5.4433  18.5849 
+
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.040e+02  1.585e+01  -6.559 5.08e-08 ***
+vehicle.length    6.267e+00  6.553e-01   9.563 2.60e-12 ***
+vehicle.weight    1.245e-03  6.890e-04   1.807   0.0776 .  
+spoiler.angle     6.877e-02  6.653e-02   1.034   0.3069    
+ground.clearance  3.546e+00  5.412e-01   6.551 5.21e-08 ***
+AWD              -3.411e+00  2.535e+00  -1.346   0.1852    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.774 on 44 degrees of freedom
+Multiple R-squared:  0.7149,	Adjusted R-squared:  0.6825 
+F-statistic: 22.07 on 5 and 44 DF,  p-value: 5.35e-11
+
+If we start from looking at the last line in the summary, at the p-value in particular (5.35e-11 which is 0.0000000000535), we can see that it is statisticaly significant to reject the null hypothesis which tells us that there is at least one independent variable in the model that impacts the dependant one (MPG in our case). The other value that we should consider is the Adjusted R-squared value which is 68.25% in our case (second line fron the bottom). It tells us to what extend independant variables explain a dependant variable. The more the variables in the model have correlation to a dependant one the higher the Adjusted value is, and vise versa. So this linear model predicts MPG efficiently.
+
+Let's take a look at the individual variavles.
+According to the result of this test there is an impact of two independant variables on MPG variable - vehicle length and ground clearance. Their coefficients provide a non-random amount of varience to the MPG value in our dataset. The "Pr(>|t|)" values of these variables are less than significance level (0.05) which tell us that we can reject the null hypotesis of m=0 (the slope of the linear model is zero). We can check it if we compile a formula by using the estimate m coefficients:
+
+y = m1x1 + m2x2 + m3x3 + m4x4 + m5x5 + b
+
+MPG = 6.267*x + 0.001245*x + 0.06877*x + 3.546*x + -3.411*x + (-104)
+
+all coefficients are applied according to the order in the summary table
+
+So in this formula we can see that vehicle length and ground clearance impact the MPG while vehicle weight and spoiler angle are very close to 0. AWD has the opposite impact on MPG - when AWD increases, PMG decreases (but according to the p-value the amount of varience provided by this coefficient could be random).
+
+To support our analysis we can visualize it for the purpose to observe (not observe) a trend (correlation). To do that we can select one representitive from each group of variables and create  plots:
+
+length_mpg <- cor(MechaCars$vehicle.length, MechaCars$mpg)
+plt <- ggplot(MechaCars, aes(x=vehicle.length, y=mpg))
+plt + geom_point()
+
+cor(MechaCars$vehicle.weight, MechaCars$mpg)
+plt <- ggplot(MechaCars, aes(x=vehicle.weight, y=mpg))
+plt + geom_point()
+
+cor(MechaCars$AWD, MechaCars$mpg)
+plt <- ggplot(MechaCars, aes(x=AWD, y=mpg))
+plt + geom_point()
+
+
+2. Suspension Coil Summary
+
+Here is the summary of the Suspention Coil data set:
+
+                    Lot1         Lot2         Lot3
+nobs          149.000000   149.000000   149.000000
+NAs            99.000000    99.000000    99.000000
+Minimum      1498.000000  1494.000000  1452.000000
+Maximum      1502.000000  1506.000000  1542.000000
+1. Quartile  1499.000000  1499.000000  1494.250000
+3. Quartile  1501.000000  1502.000000  1501.000000
+Mean         1500.000000  1500.200000  1496.140000
+Median       1500.000000  1500.000000  1498.500000
+Sum         75000.000000 75010.000000 74807.000000
+SE Mean         0.139971     0.386507     1.845460
+LCL Mean     1499.718718  1499.423285  1492.431409
+UCL Mean     1500.281282  1500.976715  1499.848591
+Variance        0.979592     7.469388   170.286122
+Stdev           0.989743     2.733018    13.049372
+Skewness        0.000000    -0.005878    -0.535808
+Kurtosis       -0.498958    -0.325454     4.599511
+
+According to the table above the design of the Lot #1 is more sustainable and realible. The Lot #2 is the next in this rating. And The Lot #3 is the worst. The variance of the Lot #1 is the smallest which means that a dispersion of the values is very small - less than a pound per inch. The min and max are very close to the mean, and the mean and the median are equal. All this indicates that the data is not spread too much which we cannot say about the Lot #3. The data of the Lot #3 is spread out over a wide range - 13 pound per inch. And for the question if the current manufacturing data meets this design specification where the variance of the suspension coils must not exceed 100 pounds per inch, the answer is "Not the Lot #3". The varience of the Lot#3 is 170 pounds per inch which is unacceptable.
+The data of the Lot #1 and Lot #2 is normaly distributed when the data of the Lot #3 is moderately skewed to the left.
+
+
+3. Suspension Coil T-Test
+
+We assume that the entire data set is a sample that we need to test against the requirement of 1500 pounds per inch for suspension coil. To do the test we need to use a one-sample T-Test which where we specify that the mu target is 1500: t.test(susp_coil$PSI, mu=1500).
+Here is the result:
+
+	One Sample t-test
+
+data:  susp_coil$PSI
+t = -1.8931, df = 149, p-value = 0.06028
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1497.507 1500.053
+sample estimates:
+mean of x 
+  1498.78 
+
+- The null hypothesis in our case is that results are NO statistically different from the mean population results of 1,500 pounds per inch. 
+- The alternative hypothesis is that there is a statistical difference.
+
+The confidence interval is 95% by defaul. That means that the significance level is 5%. If the p-value is less than significance level then we can reject the null hypothesis. The result of the test showcases that we fail to reject the null hypothesis because the p-value is 0.06. Thus we cannot reject that there is no statistical difference between the results.
+
+
+4. Design Your Own Study
+
+I suggest that we look at the following metrics in addition to the fuel economy that has alraedy been discussed in the module to compare MechaCar with  comparable vehicles.  
+- Performance - this is measured by two key metrics - raking distance and acceleration
+- Reliability - key component failure in the first year, 3 years and five years, maintence costs
+- Comfort - Customer feedback scores on comfort, Noise
+
+Performance - A study needs to be initiated which will collect data for 0-60 acceleration and 60 to zero braking.  The results of this dataset should be compared with the competition to determine if MechaCar is statistically better than the ones it competes with.
+Null Hypothesis - the mean 0-60 acceleration time equal to or less the mean of the competition.
+Data to be collected - acceleration times for 0-60 with similar weight loading pattern for MechaCar and the competition.
+
+Reliability - A few key care abouts of a customer is the time between taking the car for repairs and the cost of the repair.  MechaCar should be tested with enough data so that the mean time to failure and cost to repair data can be compared with the competition.  Based on this data, MechaCar has even offer a higher factory maintence window or higher wanrantee to attract more customers.
+Null hypothesis - Mean time to take the car for major repairs is less than the mean time for competition.  Major repair is defined as those of transmission, engine, brakes.
+Data to be collected - time taken to first major repair for MechaCar and the competition.
+
+Comfort - MechaCar should consider a user survey to get data on the perception of the car in terms of its comfort and noise.  These metrics need inputs from potential users and hence we need to get volunteers or pay participants to get their feedback.  This is a critical customer care about per most car comparative reports and hence should be undertaken.
+Null hypothesis - Mean customer comfort satistaction score is more than that of the competition.
+Data to be collected - satisfaction scores of the car and same for the competition.
+
+
