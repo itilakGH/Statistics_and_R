@@ -95,7 +95,15 @@ mean of x
 - The null hypothesis in our case is that results are NO statistically different from the mean population results of 1,500 pounds per inch. 
 - The alternative hypothesis is that there is a statistical difference.
 
-The confidence interval is 95% by defaul. That means that the significance level is 5%. If the p-value is less than significance level then we can reject the null hypothesis. The result of the test showcases that we fail to reject the null hypothesis because the p-value is 0.06. Thus we cannot reject that there is no statistical difference between the results.
+The confidence interval is 95% by default. That means that the significance level is 5%. If the p-value is less than significance level then we can reject the null hypothesis. The result of the test showcases that we fail to reject the null hypothesis because the p-value is 0.06. Thus we cannot reject that there is no statistical difference between the results.
+
+Next, we repeat our test for each Lot and compare results:
+
+- the mean of the Lot is 1500 which meets the requirement for suspension coil, the p-value of Lot1 is 1 which also tells us that we cannot reject the null hypothesis
+
+- the mean of the Lot2 is 1500.2 and the p-value is 0.61 - we fail to reject the null hypothesis
+
+- the mean of the Lot3 is 1496.14 which is unacceptable for the required standard, the p-value is 0.04 which is much lower than significance level; this means that the Lot 3 mean suspension coil PSI is statistically different from the population mean and we reject the null hypothesis
 
 
 4. Design Your Own Study

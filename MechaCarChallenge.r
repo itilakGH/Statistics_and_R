@@ -7,6 +7,7 @@ lm(mpg ~ vehicle.length + vehicle.weight + spoiler.angle + ground.clearance + AW
 summary(lm(mpg ~ vehicle.length + vehicle.weight + spoiler.angle + ground.clearance + AWD, data=MechaCars))
 
 # to support our analysis and visualize it we are creating plots for a representative of each groups from the test
+library(ggplot2)
 
 length_mpg <- cor(MechaCars$vehicle.length, MechaCars$mpg)
 plt <- ggplot(MechaCars, aes(x=vehicle.length, y=mpg))
@@ -44,5 +45,12 @@ head(wide_table_clean)
 # Creating the desired summary
 basicStats(wide_table_clean)
 
-# Running the one-sample T-Test (we assume that entire given data set is a sample)
+# Running the one-sample T-Test (we assume that entire given data set is a sample
+# and mu=1500 is the target)
 t.test(susp_coil$PSI, mu=1500) 
+
+# Running the one-sample T-Test for each Lot (each Lot given data set is a sample
+# and mu=1500 is the target)
+t.test(wide_table$Lot1, mu=1500)
+t.test(wide_table$Lot2, mu=1500)
+t.test(wide_table$Lot3, mu=1500)
