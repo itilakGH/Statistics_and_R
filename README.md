@@ -1,5 +1,5 @@
 # Statistics_and_R
-Statistics analysis of cars data with RScript:
+Statistical analysis of cars data with RScript:
 - R
 - RStudio
 - Statistical Analysis and Techniques
